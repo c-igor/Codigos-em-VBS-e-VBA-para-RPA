@@ -1,0 +1,75 @@
+'Sub teste()
+    'Z = importarCsv("\\s6006vfs0601\prd_robotic_process_aa_004$\Bots\CTB\CTB_FCC_01\Temp\Query Analise de Pedidos 02.02 a 12.02.2022.csv", "\\s6006vfs0601\prd_robotic_process_aa_004$\Bots\CTB\CTB_FCC_01\Temp\planilha_resultado.xlsx")
+'End Sub
+
+ 
+
+Function importarCsv(arrInputs)
+
+ 
+
+    caminho_csv=split(arrInputs,";",-1,0)(0)
+    caminho_xlsxFinal=split(arrInputs,";",-1,0)(1)
+
+ 
+
+' Macro4 Macro
+'
+    'Dim caminho_xlsxFinal
+
+    'caminho_xlsxFinal = "\\s6006vfs0601\prd_robotic_process_aa_004$\Bots\CTB\CTB_FCC_01\Temp\planilha_resultado.xlsx"
+
+    'Dim caminho_csv
+        'caminho_csv = "\\s6006vfs0601\prd_robotic_process_aa_004$\Bots\CTB\CTB_FCC_01\Temp\Query Analise de Pedidos 02.02 a 12.02.2022.csv"
+    Dim xlApp
+        Set xlApp = CreateObject("excel.application")
+        xlApp.Visible = True
+        xlApp.DisplayAlerts = False
+
+    Dim wbk
+        Set wbk = xlApp.Workbooks.Add
+
+
+    With wbk.Sheets(1).QueryTables.Add("TEXT;" & caminho_csv, wbk.Sheets(1).Range("$A$1"))
+        '.CommandType = 0
+        '.Name = "Query Analise de Pedidos 02.02 a 12.02.2022_1"
+        .FieldNames = True
+        .RowNumbers = False
+        .FillAdjacentFormulas = False
+        .PreserveFormatting = True
+        .RefreshOnFileOpen = False
+        .RefreshStyle = 1
+        .SavePassword = False
+        .SaveData = True
+        .AdjustColumnWidth = True
+        .RefreshPeriod = 0
+        .TextFilePromptOnRefresh = False
+        .TextFilePlatform = 1252
+        .TextFileStartRow = 1
+        .TextFileParseType = 1
+        .TextFileTextQualifier = -4142
+        .TextFileConsecutiveDelimiter = False
+        .TextFileTabDelimiter = False
+        .TextFileSemicolonDelimiter = False
+        .TextFileCommaDelimiter = False
+        .TextFileSpaceDelimiter = False
+        .TextFileOtherDelimiter = "|"
+        .TextFileColumnDataTypes = Array(2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2)
+        .TextFileTrailingMinusNumbers = True
+        .Refresh False
+    End With
+    wbk.Sheets(1).Columns("A:A").Delete -4159
+    wbk.Sheets(1).Rows("1:4").Delete -4162
+    wbk.Sheets(1).Columns("S:S").Delete -4159
+    wbk.Sheets(1).Rows("2:2").Delete -4162
+
+    wbk.SaveAs caminho_xlsxFinal, 51
+    wbk.Close False
+    xlApp.Quit
+    Set xlApp = Nothing
+    Set wbk = Nothing
+
+
+    importarCsv = "1"
+
+End Function

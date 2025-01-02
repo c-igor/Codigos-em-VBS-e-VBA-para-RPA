@@ -1,0 +1,4 @@
+criar objeto excel
+wbk = objetoExcel.workbooks.open(planilha)
+
+wbk.removePersonalInformation = false

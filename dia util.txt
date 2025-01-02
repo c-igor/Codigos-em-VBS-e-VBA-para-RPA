@@ -1,0 +1,195 @@
+function DiaUtil() {
+
+    var validacao
+    var lenDiaDaSemana
+    var dataAtual = new Date()
+    var UltimoDiaDoMes
+    var TamanhoVetorAposRemocao
+
+    //var dataAtual = new Date("Nov 04 2022 19:42:02 GMT-0300 (GMT-03:00)");
+
+    //Captura o dia atual
+    diaAtual  = dataAtual.getDate().toString();
+        if (diaAtual.length == 1) {
+            diaAtual = "0" + diaAtual;
+        }
+
+    //Captura o mes atual
+    mesDataAtual  = (dataAtual.getMonth()+1).toString();
+        if (mesDataAtual == 1){
+            mesDataAtual = "0" + mesDataAtual;
+        }
+
+    //captura o mes anterior
+    mesDataAnterior  = (dataAtual.getMonth()).toString();
+    if (mesDataAnterior.length == 1){
+        mesDataAnterior = "0" + mesDataAnterior;
+    }
+
+    //Captura o ano atual
+    anoAtual  = dataAtual.getFullYear().toString();   
+
+    //lista de feriados nacionais
+    var feriados = ['01/01/'+anoAtual,'15/04/'+anoAtual,'21/04/'+anoAtual,'01/05/'+anoAtual,'07/09/'+anoAtual,'02/11/'+anoAtual,'15/11/'+anoAtual, '25/12/'+anoAtual,'31/12/'+anoAtual]
+
+    //ultimo dia do mês atual
+    UltimoDiaDoMes = parseFloat(new Date(anoAtual, mesDataAtual, 0).getDate())
+    lenDiaDaSemana = UltimoDiaDoMes + 1
+
+    //criação do vetor que irá conter os dias do mes
+    fillWeek = new Array()
+
+    //vetor com a quantidade de dias atuais
+    DiaDaSemana = new Array(new Date(anoAtual, mesDataAtual, 0).getDate())
+    
+    //captura o dia da semana do primeiro dia do mês
+    //Domingo = 0
+    //Segunda = 1
+    //Terça = 2
+    //Quarta = 3
+    //Quinta = 4
+    //Sexta = 5
+    //Sabado = 6
+    DiaDaSemana[0] = new Date(anoAtual, mesDataAnterior,1).getDay();
+    
+        //Joga no console apenas para verificação
+        /*
+        if (DiaDaSemana[0] == 0){
+            console.log("dia da semana do dia 1 do mes atual: ", DiaDaSemana[0], " Domingo")
+        }
+        if (DiaDaSemana[0] == 01) {
+            console.log("dia da semana do dia 1 do mes atual: ", DiaDaSemana[0], " Segunda")
+        }
+        if (DiaDaSemana[0] == 02){
+            console.log("dia da semana do dia 1 do mes atual: ", DiaDaSemana[0], " Terça")
+        }
+        if (DiaDaSemana[0] == 03){
+            console.log("dia da semana do dia 1 do mes atual: ", DiaDaSemana[0], " Quarta")
+        }
+        if (DiaDaSemana[0] == 04){
+            console.log("dia da semana do dia 1 do mes atual: ", DiaDaSemana[0], " Quinta")
+        }
+        if (DiaDaSemana[0] == 05){
+            console.log("dia da semana do dia 1 do mes atual: ", DiaDaSemana[0], " Sexta")
+        }
+        if (DiaDaSemana[0] == 06){
+            console.log("dia da semana do dia 1 do mes atual: ", DiaDaSemana[0], " Sabado")
+        }
+        */
+        
+        //insere em duas listas o |dia do mes atual| + |dia da semana|
+        for (i=1;i<=UltimoDiaDoMes;i++){
+            fillWeek[i-1] = new Date(anoAtual, mesDataAnterior, i).getDate();
+            DiaDaSemana[i-1] = new Date(anoAtual, mesDataAnterior,i).getDay();               
+            //console.log("dia: ",fillWeek[i-1], "| dia da semana: ", DiaDaSemana[i-1])
+        }
+
+        
+        //remove os finais de semana DOM = 0
+        for (i=0;i<=UltimoDiaDoMes;i++){
+            if (DiaDaSemana[i]== 0){
+                DiaDaSemana.splice(i,1)
+                fillWeek.splice(i,1)
+            }                 
+        }
+
+        //após a primeira remoção de conteúdo de dentro do vetor, preciso percorrer o tamanho dele novamente
+        TamanhoVetorAposRemocao = fillWeek.length -1
+        
+        //exibir os dias
+        //for (i=0;i<=TamanhoVetorAposRemocao;i++){
+        //    console.log("dia: ",fillWeek[i], "| dia da semana: ", DiaDaSemana[i])
+        //}
+
+
+        //remove os finais de semana SAB = 6
+        for (i=0;i<=TamanhoVetorAposRemocao;i++){
+            if (DiaDaSemana[i]== 6){
+                DiaDaSemana.splice(i,1)
+                fillWeek.splice(i,1)
+            }                  
+        }        
+
+        //após a primeira remoção de conteúdo de dentro do vetor, preciso percorrer o tamanho dele novamente       
+        TamanhoVetorAposRemocao = fillWeek.length -1
+
+        //exibir os dias
+        //for (i=0;i<=TamanhoVetorAposRemocao;i++){
+        //    console.log("dia: ",fillWeek[i], "| dia da semana: ", DiaDaSemana[i], "| posição do vetor ", i)
+        //}
+
+        
+        //acrescenta o "0" na frente dos números que contem um digito
+        var i;
+        var j;
+        for (j=0;j<TamanhoVetorAposRemocao;j++){          
+            if(fillWeek[j]< 10){
+                fillWeek[j] = "0" + fillWeek[j];
+            }
+            else
+                fillWeek[j]=fillWeek[j]
+                //console.log(fillWeek[j])
+        }
+
+        //exibir os dias
+        //for (i=0;i<=TamanhoVetorAposRemocao;i++){
+        //    console.log("dia: ",fillWeek[i], "| dia da semana: ", DiaDaSemana[i], "| posição do vetor ", i)
+        //}
+
+        
+        //remover feriados nacionais que estão no array
+        var fillWeekConcatenada
+        var TamanhoVetorFeriados = feriados.length -1
+
+        for (i=0; i<=TamanhoVetorFeriados;i++){
+                for(j=0;j<=TamanhoVetorAposRemocao;j++){
+                    fillWeekConcatenada = fillWeek[j]+'/'+mesDataAtual +'/'+anoAtual;
+                    
+                    //console.log("feriado ", feriados[i], " | data da lista ", fillWeekConcatenada)
+                    
+                    if(feriados[i] == fillWeekConcatenada){
+                        fillWeek.splice(j,1);                    
+                    }
+                     
+                }
+        }  
+
+        //após a primeira remoção de conteúdo de dentro do vetor, preciso percorrer o tamanho dele novamente       
+        TamanhoVetorAposRemocao = fillWeek.length -1        
+        
+        //exibir os dias
+        //for (i=0;i<=TamanhoVetorAposRemocao;i++){
+        //    console.log("dia: ",fillWeek[i], "| dia da semana: ", DiaDaSemana[i], "| posição do vetor ", i)
+        //}
+
+        //exibir o dia atual 
+        //console.log("dia data atual: ",diaAtual.length)  
+
+        //caso precise testar um dia especifico
+        //diaAtual = 01;
+
+        //procurar se a data de hoje bate com a lista do vetor que possui todas as datas disponiveis
+        //"i=2" = terceiro dia util
+        for(i=2;i<=TamanhoVetorAposRemocao;i++){
+            if (diaAtual == fillWeek[i]) {
+                validacao = "SIM";
+                break;
+            }else{
+                validacao = "NAO";
+            }
+        }
+
+        /*
+        OBS1: a data atual pode ser alterada para fins de testes a partir dessa linha
+            //diaAtual = "01";
+        OBS2: o resultado vai dizer se o dia de hoje é considerado um dia útil
+               
+        OBS3: o for abaixo pode ser alterado para obter a partir do terceiro dia útil, ou qualquer outro a partir do inicio "i=0" (pega o primeiro vetor)
+            
+        OBS4: o if pode ser alterado para obter um dia util especifico "diaAtual == fillWeek[3]
+
+        OBS5: caso seja alterado, vetores iniciam com o valor "0", caso seja a patir do terceiro dia util, o for inicia a partir do 2 "i=2"
+        */
+
+    return validacao;
+}

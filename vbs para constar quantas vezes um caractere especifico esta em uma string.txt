@@ -1,0 +1,27 @@
+
+Private Sub Contar()
+
+  Dim x
+  
+  'x = ContadorDeCaracteres("/", "c:/aaa/bbb/ccc/x.txt")
+  x = ContadorDeCaracteres(WScript.Arguments.Item(0), WScript.Arguments.Item(1))
+  
+  'MsgBox "Esta string tem " & x & " caracteres iguais ao informado"
+  
+End Sub
+
+Function ContadorDeCaracteres(CaractereProcurado As String, TextoCompleto As String)
+    Dim Qtd As Integer
+    Dim i As Integer
+    Dim caractereAtual
+    
+  For i = 1 To Len(TextoCompleto)
+    caractereAtual = Mid(TextoCompleto, i, 1)
+     If Mid(TextoCompleto, i, 1) = CaractereProcurado Then
+        Qtd = Qtd + 1
+     End If
+  Next
+  
+  ContadorDeCaracteres = Qtd
+
+End Function

@@ -1,0 +1,65 @@
+1 função antiga:
+
+Function TiraAcento(Palavra)
+ CAcento = "àáâãäèéêëìíîïòóôõöùúûüÀÁÂÃÄÈÉÊËÌÍÎÒÓÔÕÖÙÚÛÜçÇñÑ"
+ SAcento = "aaaaaeeeeiiiiooooouuuuAAAAAEEEEIIIOOOOOUUUUcCnN"
+ Texto = ""
+ if Palavra <> "" then
+ For X = 1 to Len(Palavra)
+ Letra = mid(Palavra,X,1)
+ Pos_Acento = inStr(CAcento,Letra)
+ if Pos_Acento > 0 then
+ Letra = mid(SAcento,Pos_Acento,1)
+ end if
+ Texto = Texto & Letra
+ next
+ TiraAcento = Texto
+ end if
+ end function
+--------------------------
+2 funçao nova:
+
+Function TiraAcento(Palavra)
+    CAcento = "àáâãäèéêëìíîïòóôõöùúûüÀÁÂÃÄÈÉÊËÌÍÎÒÓÔÕÖÙÚÛÜçÇñÑ"
+    SAcento = "aaaaaeeeeiiiiooooouuuuAAAAAEEEEIIIOOOOOUUUUcCnN"
+    Texto = ""
+    
+    If Palavra <> "" Then
+        For X = 1 To Len(Palavra)
+            Letra = Mid(Palavra, X, 1)
+            Pos_Acento = InStr(CAcento, Letra)
+            
+            ' Verificar se o caractere é acentuado
+            If Pos_Acento > 0 Then
+                ' Verificar se a posição do caractere acentuado está dentro do intervalo válido na lista SAcento
+                If Pos_Acento <= Len(SAcento) Then
+                    ' Substituir o caractere acentuado pelo correspondente sem acento
+                    Letra = Mid(SAcento, Pos_Acento, 1)
+                End If
+            End If
+            
+            ' Concatenar o caractere atual ao texto resultante
+            Texto = Texto & Letra
+        Next
+        
+        ' Retornar o texto resultante sem acentos
+        TiraAcento = Texto
+    End If
+End Function
+
+------------------------------
+Function VerificaPalavra(atributo)
+
+Dim i
+ Dim id
+ Dim Auxiliar
+ Dim Resultado
+
+Auxiliar = Split(Atributo, " ", - 1, vbBinaryCompare)
+
+For i = LBound(Auxiliar) To Ubound(Auxiliar)
+ Resultado = Resultado & " " & TiraAcento(Auxiliar(i))
+ Next
+
+VerificaPalavra = Trim(Resultado)
+ end function
